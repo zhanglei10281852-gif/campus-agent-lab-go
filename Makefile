@@ -1,16 +1,16 @@
 .PHONY: test race vet build measure frontend-install frontend-test frontend-typecheck frontend-build verify
 
 test:
-	cd backend && go test ./... -count=1
+	go test ./... -count=1
 
 race:
-	cd backend && go test -race ./... -count=1
+	go test -race ./... -count=1
 
 vet:
-	cd backend && go vet ./...
+	go vet ./...
 
 build:
-	cd backend && go build ./...
+	go build ./...
 
 measure:
 	go run ./scripts/measure_project.go -root . -frontend-roots frontend-admin -enforce

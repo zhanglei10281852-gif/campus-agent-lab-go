@@ -6,10 +6,11 @@ COPY frontend-admin/ ./
 RUN npm run build
 
 FROM golang:1.22.12-alpine AS backend-build
-WORKDIR /src/backend
-COPY backend/go.mod backend/go.sum ./
+WORKDIR /src
+COPY go.mod go.sum ./
 RUN go mod download
-COPY backend/ ./
+COPY cmd ./cmd
+COPY internal ./internal
 RUN CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o /out/campuslab-server ./cmd/server \
     && CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o /out/campuslab-seed ./cmd/seed-user
 

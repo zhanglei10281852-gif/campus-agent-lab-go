@@ -8,7 +8,6 @@
 
 后端默认使用 SQLite，启动时自动执行版本迁移。先创建本地登录账号：
 
-    cd backend
     $env:DATABASE_PATH="./data/campuslab.db"
     $env:BOOTSTRAP_EMAIL="operator@example.test"
     $env:BOOTSTRAP_PASSWORD="very-secure-password"
@@ -58,12 +57,10 @@ GET /healthz 提供存活检查，GET /readyz 检查数据库就绪状态。错�
 
 ## 验证
 
-    cd backend
     go test ./... -count=1
     go test -race ./... -count=1
     go vet ./...
     go build ./...
-    cd ../
     go run ./scripts/measure_project.go -root . -frontend-roots frontend-admin -enforce
 
     cd frontend-admin
@@ -76,6 +73,6 @@ GET /healthz 提供存活检查，GET /readyz 检查数据库就绪状态。错�
 
 ## 配置
 
-后端环境变量见 `backend/.env.example`。常用项包括 `DATABASE_PATH`、`HTTP_ADDR`、`SESSION_TTL`、`APPROVAL_TTL`、`WORKER_INTERVAL`、`WORKER_BATCH_SIZE` 和 `SHUTDOWN_TIMEOUT`。前端可通过 `VITE_API_URL` 覆盖 API 基址；未设置时使用同源 `/api/v1`。
+后端环境变量见根目录 `.env.example`。常用项包括 `DATABASE_PATH`、`HTTP_ADDR`、`SESSION_TTL`、`APPROVAL_TTL`、`WORKER_INTERVAL`、`WORKER_BATCH_SIZE` 和 `SHUTDOWN_TIMEOUT`。前端可通过 `VITE_API_URL` 覆盖 API 基址；未设置时使用同源 `/api/v1`。
 
-SQLite migration 位于 `backend/migrations`，同时嵌入 Go 二进制。数据库从空库按版本升级，重复启动不会重复执行；WAL、外键、忙等待和条件更新共同提供事务与并发保护。状态和后台作业都持久化，进程重启后会从数据库恢复。
+SQLite migration 位于根目录 `migrations`，可执行迁移副本同时嵌入 Go 二进制。数据库从空库按版本升级，重复启动不会重复执行；WAL、外键、忙等待和条件更新共同提供事务与并发保护。状态和后台作业都持久化，进程重启后会从数据库恢复。

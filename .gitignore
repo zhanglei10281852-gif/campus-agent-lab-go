@@ -1,11 +1,10 @@
 # Backend
-backend/target/
-backend/data/
+target/
 data/
-backend/*.jar
-backend/.mvn/
-backend/mvnw
-backend/mvnw.cmd
+*.db
+*.db-shm
+*.db-wal
+coverage.out
 
 # Frontend
 frontend-admin/node_modules/

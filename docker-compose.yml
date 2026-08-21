@@ -1,6 +1,8 @@
 services:
   backend:
-    build: ./backend
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
     container_name: campus-agent-lab-backend
     ports:
       - "${CAMPUSLAB_API_PORT:-8080}:8080"

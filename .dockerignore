@@ -1,7 +1,6 @@
 .git
 .idea
 .vscode
-backend/data
 data
 frontend-admin/node_modules
 frontend-admin/dist

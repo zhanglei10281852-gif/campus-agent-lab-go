@@ -1,21 +1,19 @@
-GO ?= go
-
 .PHONY: test race vet build run seed-user
 
 test:
-	$(GO) test ./... -count=1
+	$(MAKE) -C .. test
 
 race:
-	$(GO) test -race ./... -count=1
+	$(MAKE) -C .. race
 
 vet:
-	$(GO) vet ./...
+	$(MAKE) -C .. vet
 
 build:
-	$(GO) build ./...
+	$(MAKE) -C .. build
 
 run:
-	$(GO) run ./cmd/server
+	cd .. && go run ./cmd/server
 
 seed-user:
-	$(GO) run ./cmd/seed-user
+	cd .. && go run ./cmd/seed-user
