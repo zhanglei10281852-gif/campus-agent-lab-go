@@ -1,0 +1,9 @@
+{
+  "workspace_code": "RANKING-PROD",
+  "source_zone_code": "FEATURE-APAC",
+  "target_zone_code": "MCP-EXEC-APAC",
+  "execution_pool_serial": "GPU-A100-0001",
+  "protocol_family": "ranking-features-v2",
+  "execution_minimum_risk_score": 0.8,
+  "execution_maximum_risk_score": 0.99
+}

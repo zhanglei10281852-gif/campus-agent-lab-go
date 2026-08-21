@@ -1,0 +1,26 @@
+services:
+  backend:
+    build: ./backend
+    container_name: campus-agent-lab-backend
+    ports:
+      - "${CAMPUSLAB_API_PORT:-8080}:8080"
+    environment:
+      DATABASE_PATH: /data/campuslab.db
+      SESSION_TTL: 12h
+      BUSINESS_TIMEZONE: Asia/Shanghai
+      BOOTSTRAP_EMAIL: operator@example.test
+      BOOTSTRAP_PASSWORD: very-secure-password
+      BOOTSTRAP_DISPLAY_NAME: 实训运营
+      BOOTSTRAP_ROLE: agent_developer
+    volumes:
+      - campuslab_data:/data
+  frontend-admin:
+    build: ./frontend-admin
+    container_name: campus-agent-lab-frontend
+    ports:
+      - "${CAMPUSLAB_WEB_PORT:-8081}:80"
+    depends_on:
+      - backend
+
+volumes:
+  campuslab_data:
