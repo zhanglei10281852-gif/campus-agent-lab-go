@@ -22,7 +22,8 @@ COPY --from=backend-build /out/campuslab-server /usr/local/bin/campuslab-server
 COPY --from=backend-build /out/campuslab-seed /usr/local/bin/campuslab-seed
 COPY deploy/nginx.fullstack.conf /etc/nginx/conf.d/default.conf
 COPY deploy/start-fullstack.sh /usr/local/bin/start-fullstack
-RUN chmod +x /usr/local/bin/start-fullstack
+RUN sed -i 's/\r$//' /usr/local/bin/start-fullstack \
+    && chmod +x /usr/local/bin/start-fullstack
 ENV HTTP_ADDR=:8080 \
     DATABASE_PATH=/data/campuslab.db \
     BUSINESS_TIMEZONE=Asia/Shanghai \

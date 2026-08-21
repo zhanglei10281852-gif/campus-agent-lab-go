@@ -210,10 +210,13 @@ func (s *AuthService) Login(ctx context.Context, input LoginInput) (LoginResult,
 		return err
 	})
 	if err != nil {
+		if errors.Is(err, domain.ErrNotFound) {
+			return LoginResult{}, fmt.Errorf("invalid credentials: %w", domain.ErrUnauthenticated)
+		}
 		return LoginResult{}, fmt.Errorf("authenticate user: %w", err)
 	}
 	if user.Status != domain.UserActive || bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(input.Password)) != nil {
-		return LoginResult{}, fmt.Errorf("invalid credentials: %w", domain.ErrConflict)
+		return LoginResult{}, fmt.Errorf("invalid credentials: %w", domain.ErrUnauthenticated)
 	}
 	token, tokenHash, err := newToken()
 	if err != nil {

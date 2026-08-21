@@ -148,11 +148,19 @@ func TestLoginReturnsTokenAndCreatesWorkspace(t *testing.T) {
 
 func TestLoginRejectsInvalidCredentials(t *testing.T) {
 	f := newHTTPFixture(t)
-	response := f.request(t, http.MethodPost, "/api/v1/auth/login", map[string]any{"email": "ops@example.test", "password": "wrong-password"}, "")
-	if response.StatusCode != http.StatusConflict {
-		t.Fatalf("status = %d", response.StatusCode)
+	for _, credentials := range []map[string]any{
+		{"email": "ops@example.test", "password": "wrong-password"},
+		{"email": "missing@example.test", "password": "wrong-password"},
+	} {
+		response := f.request(t, http.MethodPost, "/api/v1/auth/login", credentials, "")
+		if response.StatusCode != http.StatusUnauthorized {
+			t.Fatalf("credentials %v status = %d, want %d", credentials, response.StatusCode, http.StatusUnauthorized)
+		}
+		body := readResponse(t, response)
+		if body["error"].(map[string]any)["code"] != "unauthenticated" {
+			t.Fatalf("credentials %v body = %+v", credentials, body)
+		}
 	}
-	_ = readResponse(t, response)
 }
 
 func TestLogoutRevokesSession(t *testing.T) {

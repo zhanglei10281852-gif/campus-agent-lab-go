@@ -107,7 +107,7 @@ func (f *serviceFixture) as(principal domain.Principal) context.Context {
 
 func TestAuthRejectsWrongPasswordAndHonorsLogout(t *testing.T) {
 	f := newServiceFixture(t)
-	if _, err := f.services.Auth.Login(f.ctx, LoginInput{Email: f.agent_developer.Email, Password: "wrong-password"}); !errors.Is(err, domain.ErrConflict) {
+	if _, err := f.services.Auth.Login(f.ctx, LoginInput{Email: f.agent_developer.Email, Password: "wrong-password"}); !errors.Is(err, domain.ErrUnauthenticated) {
 		t.Fatalf("wrong password error = %v", err)
 	}
 	if err := f.services.Auth.Logout(f.as(f.agent_developer), f.agent_developer); err != nil {
